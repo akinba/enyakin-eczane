@@ -6,6 +6,7 @@ const seq		= require("sequelize");
 const moment	= require("moment");
 const morgan	= require("morgan");
 
+
 app.use(morgan('combined'));
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
