@@ -20,9 +20,9 @@ app.get('/',(req,res)=>{
 	res.send('OK');
 });
 
-var ip=process.env.IP||'localhost';
+//var ip=process.env.IP||'localhost';
 var port=process.env.PORT||3003
-app.listen( port,ip, ()=>{
-	console.log(`Sunucu ${ip}:${port}'de calisiyor`  );
+app.listen( port, ()=>{
+	console.log(`Sunucu ${port}'de calisiyor`  );
 	//console.log(db.Sequelize);
 });
