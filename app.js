@@ -16,9 +16,13 @@ app.use( express.static("public"));
 
 var db = new seq("postgres://postgres:pi@www.akinba.com:5432/edremit");
 
+app.get('/',(req,res)=>{
+	res.send('OK');
+});
+
 var ip=process.env.IP||'localhost';
 var port=process.env.PORT||3003
-app.listen( 3003,ip, ()=>{
+app.listen( port,ip, ()=>{
 	console.log(`Sunucu ${ip}:${port}'de calisiyor`  );
 	//console.log(db.Sequelize);
 });
