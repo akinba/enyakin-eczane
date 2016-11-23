@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+	<title>Enyakın Eczane</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwedtbCae-frsVDz_I7N0lH5n78FE_bG8"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+	    $( document ).ready(function() {
+	      });
+    </script>
+    <style type="text/css">
+    	.left.menu .item:hover{
+    		background: grey;
+    	}
+    </style>
+</head>
+<body style="height: 100%;">
+
+<div class="ui visible top sidebar">
+	<div class="ui menu">
+		<a class="active item" href="/">Enyakın-Eczane</a>
+		<div class="left menu">
+			<div class="item">
+			<i class="large zoom icon"></i>
+			</div>			
+			<div class="item">
+			<i class="large zoom out icon"></i>
+			</div>
+		</div>
+		<div class="right menu">
+			<div class="item">
+				<div class="ui transparent icon input">
+					<input type="text" name="search" placeholder="Search...">
+					<i class="search link icon"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="map" style="height: 100%; margin-top: 40px"></div>
+
+<script type="text/javascript">
+var map = new google.maps.Map($("#map")[0], {
+	  zoom: 13,
+	  mapTypeId: 'terrain',
+	  center: {lat: 41, lng: 29.0},
+	  mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_RIGHT
+      },
+      zoomControl: false,
+      streetViewControl: true,
+      streetViewControlOptions: {
+      position: google.maps.ControlPosition.RIGHT_CENTER
+      },
+	});
+
+var socket=io();
+	socket.on('connect', function(){
+		console.log('bagalndik');
+	});
+</script>
+</body>
+</html>
