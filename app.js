@@ -9,16 +9,24 @@ const socketOI	= require("socket.io");
 const http		= require("http");
 var port=process.env.POR||3003
 
+
 app.use(morgan('dev'));
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
 app.set("view engine", "ejs");
 app.use( express.static("public"));
 
+
 var server 	= http.createServer(app);
 var io 		= socketOI(server);
 
-var db = new sequelize("postgres://postgres:pi@www.akinba.com:5432/enyakin");
+
+if (port==3003) {
+	var db = new sequelize("postgres://postgres:pi@localhost:5432/enyakin");
+} else {
+	var db = new sequelize("postgres://postgres:pi@www.akinba.com:5432/enyakin");
+}
+
 var eczane = db.define('eczane', 
 {
 	gid: {
@@ -68,6 +76,7 @@ var eczane = db.define('eczane',
   freezeTableName: true
 });
 
+
 io.on ('connection', (socket)=>{
 	console.log(socket.id+' baglandi');
 	socket.emit('layer',{}
@@ -77,9 +86,11 @@ io.on ('connection', (socket)=>{
 });
 
 
-app.get('/', (req,res)=>{
+
+app.get('/',(req,res)=>{
 	res.render('index');
 });
+
 
 
 
@@ -87,3 +98,4 @@ server.listen( 3003, ()=>{
 	console.log(`Sunucu ${port}'de calisiyor`  );
 	//console.log(db.Sequelize);
 });
+
