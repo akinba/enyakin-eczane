@@ -76,6 +76,22 @@ var eczane = db.define('eczane',
   freezeTableName: true
 });
 
+db.query("select json_build_object(\
+    'type','FeatureCollection',\
+    'features',\
+    json_build_array(\
+        json_build_object(\
+            'type', 'Feature',\
+            'properties', json_build_object(\
+                'gid', gid,\
+                'adi', adi,\
+                'adres', adres) :: JSON,\
+            'geometry', st_asgeojson(geom) :: JSON)\
+    )\
+)\
+ from eczane ;",{type: sequelize.QueryTypes.SELECT}).then((data)=>{
+ 	console.log(data);
+ })
 
 io.on ('connection', (socket)=>{
 	console.log(socket.id+' baglandi');
