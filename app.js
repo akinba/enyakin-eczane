@@ -7,7 +7,7 @@ const moment	= require("moment");
 const morgan	= require("morgan");
 const socketOI	= require("socket.io");
 const http		= require("http");
-var port=process.env.POR||3003
+var port=process.env.PORT||3003
 
 
 app.use(morgan('dev'));
