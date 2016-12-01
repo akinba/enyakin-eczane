@@ -21,11 +21,7 @@ var server 	= http.createServer(app);
 var io 		= socketOI(server);
 
 
-if (port==3003) {
-	var db = new sequelize("postgres://postgres:pi@localhost:5432/enyakin");
-} else {
-	var db = new sequelize("postgres://postgres:pi@www.akinba.com:5432/enyakin");
-}
+var db = new sequelize("postgres://postgres:pi@www.akinba.com:5432/enyakin");
 
 var eczane = db.define('eczane', 
 {
@@ -76,30 +72,32 @@ var eczane = db.define('eczane',
   freezeTableName: true
 });
 
+var project = {};
 db.query("select json_build_object(\
-    'type','FeatureCollection',\
-    'features',\
-    json_build_array(\
-        json_build_object(\
-            'type', 'Feature',\
-            'properties', json_build_object(\
-                'gid', gid,\
-                'adi', adi,\
-                'adres', adres) :: JSON,\
-            'geometry', st_asgeojson(geom) :: JSON)\
-    )\
+'type','FeatureCollection',\
+'features', json_agg(\
+json_build_object(\
+'type', 'Feature',\
+'properties', json_build_object(\
+'gid', gid,\
+'adi', adi,\
+'adres', adres) :: JSON,\
+'geometry', st_asgeojson(geom) :: JSON)\
 )\
- from eczane ;",{type: sequelize.QueryTypes.SELECT}).then((data)=>{
- 	console.log(data);
- })
+) as eczane from eczane limit 1;",{type: sequelize.QueryTypes.SELECT}).then((data)=>{
+ 	console.log(data[0].eczane);
 
 io.on ('connection', (socket)=>{
 	console.log(socket.id+' baglandi');
-	socket.emit('layer',{}
+	socket.emit('layers',data
 
 	);
 
 });
+
+
+ });
+
 
 
 
