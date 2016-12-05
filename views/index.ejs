@@ -63,12 +63,23 @@ var map = new google.maps.Map($("#map")[0], {
 
 var socket=io();
 	socket.on('connect', function(){
-		console.log('bagalndik');
+		console.log('baglandik');
 	});
 
 	socket.on('layers', function(data){
-		console.log(data[0].eczane);
-		map.data.addGeoJson(data[0].eczane);
+		console.log(data[0].eczane.features[0]);
+		//map.data.addGeoJson(data[0].eczane);
+		data[0].eczane.features.forEach(
+			function(feature){
+				var coords= feature.geometry.coordinates;
+				var latlng = new google.maps.LatLng(coords[1],coords[0]);
+				var marker = new google.maps.Marker({
+					position: latlng,
+					map: map
+				});
+				//console.log(feature);
+			});
+
 	});
 </script>
 </body>

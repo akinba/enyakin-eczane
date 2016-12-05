@@ -85,7 +85,7 @@ json_build_object(\
 'geometry', st_asgeojson(geom) :: JSON)\
 )\
 ) as eczane from eczane limit 1;",{type: sequelize.QueryTypes.SELECT}).then((data)=>{
- 	console.log(data[0].eczane);
+ 	console.log(data);
 
 io.on ('connection', (socket)=>{
 	console.log(socket.id+' baglandi');
