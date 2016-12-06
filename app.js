@@ -108,7 +108,7 @@ app.get('/',(req,res)=>{
 
 
 
-server.listen( 3003, ()=>{
+server.listen( port, ()=>{
 	console.log(`Sunucu ${port}'de calisiyor`  );
 	//console.log(db.Sequelize);
 });
