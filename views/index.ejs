@@ -72,12 +72,12 @@ var socket=io();
 		data[0].eczane.features.forEach(
 			function(feature){
 				var coords= feature.geometry.coordinates;
-				var latlng = new google.maps.LatLng(coords[1],coords[0]);
+				var latlng = new google.maps.LatLng(coords[0],coords[1]);
 				var marker = new google.maps.Marker({
 					position: latlng,
 					map: map
 				});
-				//console.log(feature);
+				console.log(coords);
 			});
 
 	});
