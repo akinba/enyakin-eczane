@@ -46,9 +46,9 @@
 
 <script type="text/javascript">
 var map = new google.maps.Map($("#map")[0], {
-	  zoom: 13,
+	  zoom: 10,
 	  mapTypeId: 'roadmap',
-	  center: {lat: 41, lng: 29.0},
+	  center: {lat: 41, lng: 27.0},
 	  mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
@@ -68,8 +68,11 @@ var socket=io();
 
 	socket.on('layers', function(data){
 		console.log(data[0].eczane.features[0]);
-		//map.data.addGeoJson(data[0].eczane);
-		data[0].eczane.features.forEach(
+		map.data.setStyle({
+  			icon: 'http://www.gaziantepeo.org.tr/app/themes/geo-v1/img/icon-1.png'
+		});
+		map.data.addGeoJson(data[0].eczane);
+/*		data[0].eczane.features.forEach(
 			function(feature){
 				var coords= feature.geometry.coordinates;
 				var latlng = new google.maps.LatLng(coords[0],coords[1]);
@@ -78,7 +81,7 @@ var socket=io();
 					map: map
 				});
 				console.log(coords);
-			});
+			});*/
 
 	});
 </script>
