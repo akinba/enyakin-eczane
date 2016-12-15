@@ -84,22 +84,24 @@ json_build_object(\
 'adres', adres) :: JSON,\
 'geometry', st_asgeojson(geom) :: JSON)\
 )\
-) as eczane from eczane limit 1;",{type: sequelize.QueryTypes.SELECT}).then((data)=>{
- 	console.log(data);
+) as eczane from eczane ;",{type: sequelize.QueryTypes.SELECT}).then((data)=>{
+ 	//console.log(data);
 
 io.on ('connection', (socket)=>{
 	console.log(socket.id+' baglandi');
 	socket.emit('layers',data
 
 	);
+	socket.on('date',(data)=>{
+		console.log(data);
+	});
 
 });
 
 
  });
 
-
-
+console.log(moment().valueOf());
 
 app.get('/',(req,res)=>{
 	res.render('index');
