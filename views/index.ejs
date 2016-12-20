@@ -31,6 +31,10 @@
 			<div class="item">
 			<i class="large zoom out icon"></i>
 			</div>
+			<div class="ui input large">
+					<input type="date" id="ndate" value="">
+			</div>
+
 		</div>
 		<div class="right menu">
 			<div class="item">
@@ -61,20 +65,26 @@ var map = new google.maps.Map($("#map")[0], {
       position: google.maps.ControlPosition.RIGHT_CENTER
       },
 	});
-
+	map.data.setStyle({
+  		icon: 'http://www.gaziantepeo.org.tr/app/themes/geo-v1/img/icon-1.png'
+	});
 var socket=io();
 	socket.on('connect', function(){
 		console.log('baglandik');
 	});
-
-	socket.emit('date', moment().format("DD/MM/YY").valueOf());
+	$('#ndate').val(moment().format("YYYY-MM-DD").valueOf());
+	$('#ndate').change(function(){
+		//console.log($(this).val());
+		var tdate=$(this).val();
+		socket.emit('date', moment(tdate).format("DD/MM/YYYY").valueOf());
+	});
+	socket.emit('date', moment().format("DD/MM/YYYY").valueOf());
 	socket.on('layers', function(data){
 		//console.log(data[0].eczane.features[0]);
-		map.data.setStyle({
-  			icon: 'http://www.gaziantepeo.org.tr/app/themes/geo-v1/img/icon-1.png'
+		map.data.forEach(function(feature) {
+        	map.data.remove(feature);
 		});
 		map.data.addGeoJson(data[0].eczane);
-
 	});
 </script>
 </body>

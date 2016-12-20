@@ -72,36 +72,34 @@ var eczane = db.define('eczane',
   freezeTableName: true
 });
 
-var project = {};
-db.query("select json_build_object(\
-'type','FeatureCollection',\
-'features', json_agg(\
-json_build_object(\
-'type', 'Feature',\
-'properties', json_build_object(\
-'gid', gid,\
-'adi', adi,\
-'adres', adres) :: JSON,\
-'geometry', st_asgeojson(geom) :: JSON)\
-)\
-) as eczane from eczane ;",{type: sequelize.QueryTypes.SELECT}).then((data)=>{
- 	//console.log(data);
 
 io.on ('connection', (socket)=>{
 	console.log(socket.id+' baglandi');
-	socket.emit('layers',data
 
-	);
-	socket.on('date',(data)=>{
-		console.log(data);
+	socket.on('date',(date)=>{
+		console.log(date);
+		db.query("select json_build_object(\
+			'type','FeatureCollection',\
+			'features', json_agg(\
+			json_build_object(\
+			'type', 'Feature',\
+			'properties', json_build_object(\
+			'gid', gid,\
+			'adi', adi,\
+			'adres', adres) :: JSON,\
+			'geometry', st_asgeojson(geom) :: JSON)\
+			)\
+) as eczane from eczane where nobet_tarihi = :nobet_tarihi;",
+		{replacements:{nobet_tarihi:[date]} ,type: sequelize.QueryTypes.SELECT})
+		.then((data)=>{
+ 		console.log(data);
+		io.sockets.sockets[socket.id].emit('layers', data)
+		});
+
 	});
-
 });
 
-
- });
-
-console.log(moment().valueOf());
+console.log(moment().format("DD/MM/YY").valueOf());
 
 app.get('/',(req,res)=>{
 	res.render('index');
