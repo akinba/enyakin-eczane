@@ -26,13 +26,7 @@
 	<div class="ui menu">
 		<a class="active item" href="/">Enyakın-Eczane</a>
 		<div class="left menu">
-			<div class="item">
-			<i class="large zoom icon"></i>
-			</div>			
-			<div class="item">
-			<i class="large zoom out icon"></i>
-			</div>
-			<div class="ui input large">
+			<div class="ui input">
 					<input type="date" id="ndate" value="">
 			</div>
 
@@ -58,7 +52,7 @@ var map = new google.maps.Map($("#map")[0], {
 	  mapTypeControl: true,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.RIGHT_TOP
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
       },
       zoomControl: false,
       streetViewControl: true,
@@ -67,8 +61,19 @@ var map = new google.maps.Map($("#map")[0], {
       },
 	});
 	
-	map.data.setStyle({
-  		icon: 'http://www.gaziantepeo.org.tr/app/themes/geo-v1/img/icon-1.png'
+	// map.data.setStyle({
+ //  		icon: 'http://www.gaziantepeo.org.tr/app/themes/geo-v1/img/icon-1.png'
+	// });
+	map.data.setStyle( function(feature){
+		var icon;
+		if (feature.getProperty('nobetci')==true) {
+			icon= 'http://www.gaziantepeo.org.tr/app/themes/geo-v1/img/icon-1.png';
+		} else {
+			icon= 'http://www.samsuneczaciodasi.org.tr/images/elogo2.gif';
+		}
+		return ({
+			icon: icon
+		});
 	});
 var socket=io();
 	socket.on('connect', function(){
@@ -84,6 +89,7 @@ var socket=io();
 	socket.on('layers', function(data){
 		//console.log(data[0].eczane.features[0]);
 		map.data.forEach(function(feature) {
+			console.log(feature.getProperty('nobetci'));
         	map.data.remove(feature);
 		});
 		map.data.addGeoJson(data[0].eczane);
