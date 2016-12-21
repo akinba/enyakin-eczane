@@ -23,54 +23,6 @@ var io 		= socketOI(server);
 
 var db = new sequelize("postgres://postgres:pi@www.akinba.com:5432/enyakin");
 
-var eczane = db.define('eczane', 
-{
-	gid: {
-		type: sequelize.UUID,
-		primaryKey: true,
-		defaultValue: sequelize.UUIDV4
-	},
-	adi: {
-		type: sequelize.STRING
-	},
-	adres: {
-		type: sequelize.STRING
-	},
-	adres_tarifi: {
-		type: sequelize.STRING
-	},
-	telefon: {
-		type: sequelize.STRING
-	},
-	fax: {
-		type: sequelize.STRING
-	},
-	nobet_tarihi: {
-		type: sequelize.STRING(10)
-	},
-	il: {
-		type: sequelize.STRING(20)
-	},
-	ilce: {
-		type: sequelize.STRING(20)
-	},
-	enlem: {
-		type: sequelize.FLOAT
-	},
-	boylam: {
-		type: sequelize.FLOAT
-	},
-	konum: {
-		type: sequelize.STRING
-	},
-	geom: {
-		type: sequelize.GEOMETRY('POINT', 4326)
-	}
-}, 
-
-{
-  freezeTableName: true
-});
 
 
 io.on ('connection', (socket)=>{
@@ -86,10 +38,12 @@ io.on ('connection', (socket)=>{
 			'properties', json_build_object(\
 			'gid', gid,\
 			'adi', adi,\
-			'adres', adres) :: JSON,\
+			'adres', adres,\
+			'nobetci', CASE WHEN nobet_tarihi=:nobet_tarihi THEN TRUE::BOOLEAN\
+							ELSE FALSE::BOOLEAN END) :: JSON,\
 			'geometry', st_asgeojson(geom) :: JSON)\
 			)\
-) as eczane from eczane where nobet_tarihi = :nobet_tarihi;",
+) as eczane from eczane ;",
 		{replacements:{nobet_tarihi:[date]} ,type: sequelize.QueryTypes.SELECT})
 		.then((data)=>{
  		console.log(data);
