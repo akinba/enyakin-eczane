@@ -30,16 +30,39 @@
 	<div class="ui right simple dropdown item">
 		<i class="large options icon"></i>
 		<div class="menu">
-			<div class="item">
+			<a class="item">
 				<i class="sign in icon"></i>Giriş
-			</div>
-			<div class="item">
+			</a>
+			<a class="item">
 				<i class="add user icon"></i>Üye ol
-			</div>
+			</a>
 		</div>
 	</div>
 </div>
 
+<div id="infoW" class="ui left sidebar">
+<div class="ui card">
+	<div class="content">
+		<div class="header">
+		<span class="">Nilüfer ECZANESİ</span>
+		<i class="bordered red heartbeat icon"></i>
+		<i class="bordered arrow right icon"></i></div>
+		<div class="meta">
+			<span>Bilgiler</span>
+		</div>
+		<div class="ui four column internally celled grid description">
+			<div class="row">
+				<span class="column">Adres:</span>
+				<span class="wide column">ERTUĞRUL MAH. MİMAR SİNAN CAD.HASAN ŞEKERÖZÜ SOK. NO:1/13</span>
+			</div>
+			<div class="row">
+				<span class="column">Tel:</span>
+				<span class="wide column">5453453</span>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
 <div id="map" style="height: 100%;"></div>
 
 <script type="text/javascript">
@@ -49,8 +72,8 @@ var map = new google.maps.Map($("#map")[0], {
 	  center: {lat: 41, lng: 27.0},
 	  mapTypeControl: true,
       mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+        position: google.maps.ControlPosition.RIGHT_CENTER
       },
       zoomControl: false,
       streetViewControl: true,
@@ -59,9 +82,6 @@ var map = new google.maps.Map($("#map")[0], {
       },
 	});
 	
-	// map.data.setStyle({
- //  		icon: 'http://www.gaziantepeo.org.tr/app/themes/geo-v1/img/icon-1.png'
-	// });
 	map.data.setStyle( function(feature){
 		var icon;
 		if (feature.getProperty('nobetci')==true) {
@@ -73,6 +93,10 @@ var map = new google.maps.Map($("#map")[0], {
 			icon: icon
 		});
 	});
+	map.data.addListener('click',function(event){
+		$('#infoW').sidebar('toggle');
+	});
+
 var socket=io();
 	socket.on('connect', function(){
 		console.log('baglandik');
