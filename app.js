@@ -20,8 +20,12 @@ app.use( express.static("public"));
 var server 	= http.createServer(app);
 var io 		= socketOI(server);
 
+if (port==3003){
+	var db = new sequelize("postgres://postgres:pi@192.168.2.225:5432/enyakin");
+} else {
+	var db = new sequelize("postgres://postgres:pi@www.akinba.com:5432/enyakin");
+}
 
-var db = new sequelize("postgres://postgres:pi@www.akinba.com:5432/enyakin");
 
 
 

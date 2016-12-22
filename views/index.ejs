@@ -94,7 +94,7 @@ var map = new google.maps.Map($("#map")[0], {
 		});
 	});
 	map.data.addListener('click',function(event){
-		$('#infoW').sidebar('toggle');
+		$('#infoW').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
 	});
 
 var socket=io();
