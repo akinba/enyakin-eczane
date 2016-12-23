@@ -40,30 +40,37 @@
 	</div>
 </div>
 
-<div id="infoW" class="ui left sidebar">
-<div class="ui card">
+<div id="map" style="height: 100%;"></div>
+
+<div id="infoW" class="ui card" style="visibility: hidden; position: fixed; top: 10%;">
+	<div onclick="hideW()" class="floating ui red label">
+		X
+	</div>
 	<div class="content">
 		<div class="header">
-		<span class="">Nilüfer ECZANESİ</span>
-		<i class="bordered red heartbeat icon"></i>
-		<i class="bordered arrow right icon"></i></div>
-		<div class="meta">
-			<span>Bilgiler</span>
+			<span class=""><small>Nilüfer ECZANESİ</small></span>
+			<div class="ui tiny basic icons right floated ">
+				<i class="bordered arrow right icon"></i>
+			</div>
 		</div>
-		<div class="ui four column internally celled grid description">
+		<div class="meta">
+			<span><small>Bilgiler</small></span>
+		</div>
+		<div class="ui column internally celled grid description">
 			<div class="row">
-				<span class="column">Adres:</span>
-				<span class="wide column">ERTUĞRUL MAH. MİMAR SİNAN CAD.HASAN ŞEKERÖZÜ SOK. NO:1/13</span>
+				<span class="three wide column"><small>Adres:</small></span>
+				<p class="thirteen wide column"><small>ERTUĞRUL MAH. MİMAR SİNAN CAD.HASAN ŞEKERÖZÜ SOK. NO:1/13</small></p>
 			</div>
 			<div class="row">
-				<span class="column">Tel:</span>
-				<span class="wide column">5453453</span>
+				<span class="three wide column"><small>Tel:</small></span>
+				<span class="thirteen wide column"><small>5453453</small></span>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
-<div id="map" style="height: 100%;"></div>
+
+
+
 
 <script type="text/javascript">
 var map = new google.maps.Map($("#map")[0], {
@@ -94,7 +101,7 @@ var map = new google.maps.Map($("#map")[0], {
 		});
 	});
 	map.data.addListener('click',function(event){
-		$('#infoW').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+		$('#infoW').transition('show fade right');
 	});
 
 var socket=io();
@@ -116,6 +123,10 @@ var socket=io();
 		});
 		map.data.addGeoJson(data[0].eczane);
 	});
+
+	function hideW(){
+		$('#infoW').transition('hide fade right');
+	}
 </script>
 </body>
 </html>
