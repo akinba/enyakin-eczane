@@ -39,6 +39,7 @@ io.on ('connection', (socket)=>{
 			'gid', gid,\
 			'adi', adi,\
 			'adres', adres,\
+			'telefon',telefon,\
 			'nobetci', CASE WHEN nobet_tarihi=:nobet_tarihi THEN TRUE::BOOLEAN\
 							ELSE FALSE::BOOLEAN END) :: JSON,\
 			'geometry', st_asgeojson(geom) :: JSON)\

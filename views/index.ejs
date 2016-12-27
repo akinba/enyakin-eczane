@@ -12,6 +12,12 @@
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 	    $( document ).ready(function() {
+	    	if (navigator.geolocation) {
+             navigator.geolocation.getCurrentPosition(function (position) {
+                 initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                 map.setCenter(initialLocation);
+             });
+          }
 	      });
     </script>
     <style type="text/css">
@@ -48,7 +54,7 @@
 	</div>
 	<div class="content">
 		<div class="header">
-			<span class=""><small>Nilüfer ECZANESİ</small></span>
+			<span><small id="nameofE"></small></span>
 			<div class="ui tiny basic icons right floated ">
 				<i class="bordered arrow right icon"></i>
 			</div>
@@ -59,11 +65,11 @@
 		<div class="ui column internally celled grid description">
 			<div class="row">
 				<span class="three wide column"><small>Adres:</small></span>
-				<p class="thirteen wide column"><small>ERTUĞRUL MAH. MİMAR SİNAN CAD.HASAN ŞEKERÖZÜ SOK. NO:1/13</small></p>
+				<p class="thirteen wide column"><small id="adressofE"></small></p>
 			</div>
 			<div class="row">
 				<span class="three wide column"><small>Tel:</small></span>
-				<span class="thirteen wide column"><small>5453453</small></span>
+				<span class="thirteen wide column"><small id="phoneofE"></small></span>
 			</div>
 		</div>
 	</div>
@@ -101,6 +107,9 @@ var map = new google.maps.Map($("#map")[0], {
 		});
 	});
 	map.data.addListener('click',function(event){
+		$('#nameofE').html(event.feature.getProperty('adi'));
+		$('#adressofE').html(event.feature.getProperty('adres'));
+		$('#phoneofE').html(event.feature.getProperty('telefon'));
 		$('#infoW').transition('show fade right');
 	});
 
