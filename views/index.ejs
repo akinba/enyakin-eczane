@@ -12,12 +12,7 @@
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript">
 	    $( document ).ready(function() {
-	    	if (navigator.geolocation) {
-             navigator.geolocation.getCurrentPosition(function (position) {
-                 initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                 map.setCenter(initialLocation);
-             });
-          }
+	    	$('.popup').popup()
 	      });
     </script>
     <style type="text/css">
@@ -75,8 +70,11 @@
 	</div>
 </div>
 
-
-
+<div class="ui right floated main menu" style="position: fixed; right: 1%; top: 10%;">
+	<a class="icon item popup" onclick="goPosition()" data-content="Konumuma Git">
+		<i class="yellow maximize icon"></i>
+	</a>
+</div>
 
 <script type="text/javascript">
 var map = new google.maps.Map($("#map")[0], {
@@ -135,6 +133,14 @@ var socket=io();
 
 	function hideW(){
 		$('#infoW').transition('hide fade right');
+	}
+	function goPosition(){
+		    	if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(function (position) {
+             initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+             map.setCenter(initialLocation);
+         });
+      }
 	}
 </script>
 </body>
